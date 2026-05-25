@@ -3,7 +3,7 @@ from evalscope import TaskConfig, run_task
 from evalscope.constants import EvalType
 
 task_cfg = TaskConfig(
-    model='../qwen25-14b',
+    model='/root/autodl-tmp/qwen35-4b',
     api_url='http://127.0.0.1:8000/v1',
     api_key="EMPTY",
     eval_type=EvalType.SERVICE,
@@ -13,7 +13,7 @@ task_cfg = TaskConfig(
             "local_path": "qa",  # 自定义数据集路径
             "subset_list": [
                 # 评测数据集名称，上述 *.jsonl 中的 *，可配置多个子数据集
-                "med"       
+                "med-dataset-test"       
             ]
         }
     },
