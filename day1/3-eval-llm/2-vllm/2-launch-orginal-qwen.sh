@@ -1,6 +1,6 @@
 #!/bin/sh
 
-vllm serve /root/autodl-tmp/qwen35-4b \
+uv run vllm serve /root/autodl-tmp/qwen35-4b \
     --host 0.0.0.0 \
     --port 8000 \
     --trust-remote-code \
