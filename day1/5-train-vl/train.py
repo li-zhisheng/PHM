@@ -1,4 +1,5 @@
-from unsloth import FastLanguageModel, FastModel
+from unsloth import FastLanguageModel, FastModel, FastVisionModel
+from unsloth.trainer import UnslothVisionDataCollator
 import torch
 from trl import SFTTrainer, SFTConfig
 from datasets import load_dataset
@@ -21,7 +22,6 @@ model, processor = FastLanguageModel.from_pretrained(
     use_gradient_checkpointing = True,
     local_files_only=True,
 )
-tokenizer = processor.tokenizer
 
 model = FastLanguageModel.get_peft_model(
    model,
@@ -34,7 +34,6 @@ model = FastLanguageModel.get_peft_model(
    lora_alpha = 32,
    lora_dropout = 0,
    bias = "none",
-   use_gradient_checkpointing = True,
    random_state = 3407,
    use_rslora = False,
    loftq_config = None,
@@ -65,34 +64,38 @@ FastVisionModel.for_training(model)
 
 trainer = SFTTrainer(
     model = model,
-    tokenizer = tokenizer,
-    train_dataset = dataset,
+    tokenizer = processor,
+    data_collator = UnslothVisionDataCollator(model, processor),
+    train_dataset = converted_dataset,
     dataset_text_field = "text",
     max_seq_length = max_seq_length,
     dataset_num_proc = 8,
     packing = False, # Can make training 5x faster for short sequences.
-    args = TrainingArguments(
-        per_device_train_batch_size = 1,
-        gradient_accumulation_steps = 16,
+    args = SFTConfig(
+        per_device_train_batch_size = 4,
+        gradient_accumulation_steps = 4,
         warmup_steps = 5,
-        #max_steps = 6,
-        num_train_epochs = 3, # For longer training runs!
-        learning_rate = 5e-4,
-        fp16 = not is_bfloat16_supported(),
-        bf16 = is_bfloat16_supported(),
-        logging_steps = 2,
+        # max_steps = 60,
+        num_train_epochs = 3, # Set this instead of max_steps for full training runs
+        learning_rate = 2e-4,
+        logging_steps = 1,
         optim = "adamw_8bit",
-        weight_decay = 0.01,
+        weight_decay = 0.001,
         lr_scheduler_type = "linear",
         seed = 3407,
         output_dir = "outputs",
-        report_to = "none", # Use this for WandB etc
+        report_to = "none",     # For Weights and Biases
+
+        # You MUST put the below items for vision finetuning:
+        remove_unused_columns = False,
+        dataset_text_field = "",
+        dataset_kwargs = {"skip_prepare_dataset": True},
+        max_length = 4096,
     ),
 )
 
 trainer_stats = trainer.train()
 
 print("saving...")
-model.save_pretrained_merged("/root/autodl-tmp/qwen35-4b-med-vl", tokenizer)
-#tokenizer.save_pretrained("/root/autodl-tmp/qwen35-08b-finetuned-ffmpeglog")
+model.save_pretrained_merged("/root/autodl-tmp/qwen35-4b-med-vl", processor)
 print("saved")

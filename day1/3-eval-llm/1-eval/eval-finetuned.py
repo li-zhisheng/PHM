@@ -3,7 +3,7 @@ from evalscope import TaskConfig, run_task
 from evalscope.constants import EvalType
 
 task_cfg = TaskConfig(
-    model='/root/autodl-tmp/qwen35-4b-finetuned',
+    model='medmodelllm',
     api_url='http://127.0.0.1:8000/v1',
     api_key="EMPTY",
     eval_type=EvalType.SERVICE,
