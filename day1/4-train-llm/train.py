@@ -40,19 +40,19 @@ model = FastLanguageModel.get_peft_model(
    loftq_config = None,
 )
 
-dataset = load_dataset('json', data_files='./med-dataset-train.json', split='train')
-chat_template = """你是一个专业的医疗健康顾问，能够提供有关体检指标异常的专业健康建议。
+dataset = load_dataset('json', data_files='../2-prepare-dataset/med-dataset-train.jsonl', split='train')
+system_prompt = "你是一个专业的医疗健康顾问，能够提供有关体检指标异常的专业健康建议。"
 
-### 指令:
-{INPUT}
+dataset = to_sharegpt(
+    dataset,
+    merged_prompt = f"{system_prompt}\n\n{{query}}",
+    output_column_name = "response",
+)
 
-### 回应:
-{OUTPUT}"""
-
+dataset = standardize_sharegpt(dataset)
 dataset = apply_chat_template(
     dataset,
     tokenizer=tokenizer,
-    chat_template=chat_template,
 )
 print(dataset[0])
 
@@ -65,11 +65,11 @@ trainer = SFTTrainer(
     dataset_num_proc = 8,
     packing = False, # Can make training 5x faster for short sequences.
     args = TrainingArguments(
-        per_device_train_batch_size = 1,
-        gradient_accumulation_steps = 16,
+        per_device_train_batch_size = 2,
+        gradient_accumulation_steps = 8,
         warmup_steps = 5,
-        #max_steps = 6,
-        num_train_epochs = 3, # For longer training runs!
+        max_steps = 3000,
+        # num_train_epochs = 1, # For longer training runs!
         learning_rate = 5e-4,
         fp16 = not is_bfloat16_supported(),
         bf16 = is_bfloat16_supported(),
