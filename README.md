@@ -31,6 +31,17 @@ graph LR
     G -.-> J
 ```
 
+
+## 技术栈
+
+- **基座模型**: Qwen3.5-4B
+- **微调框架**: Unsloth
+- **推理引擎**: vLLM
+- **服务框架**: FastAPI
+- **评估工具**: EvalScope
+- **前端**: 原生 HTML/CSS/JavaScript
+
+
 ## 目录结构
 
 ```
@@ -98,16 +109,6 @@ LLM 健康顾问
 2. VL 模型识别异常指标
 3. LLM 基于异常指标生成健康建议
 4. 返回完整的分析报告
-
-
-## 技术栈
-
-- **基座模型**: Qwen3.5-4B
-- **微调框架**: Unsloth
-- **推理引擎**: vLLM
-- **服务框架**: FastAPI
-- **评估工具**: EvalScope
-- **前端**: 原生 HTML/CSS/JavaScript
 
 
 ## 注意事项
