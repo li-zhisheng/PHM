@@ -84,7 +84,7 @@ async def analyze_image(files: Annotated[list[bytes], File()]):
                         "content": f"根据以下医学检测报告分析结果，提供相应的健康建议和注意事项：\n\n{summary}\n\n请以简洁明了的中文给出实用的健康建议，包括饮食、运动和生活方式等方面的指导。"
                     }
                 ],
-                "stop": ["<|eot_id|>"], 
+                # "stop": ["<|eot_id|>"], 
                 "max_tokens": 512
             }
 
@@ -92,6 +92,7 @@ async def analyze_image(files: Annotated[list[bytes], File()]):
             llm_resp.raise_for_status()
             llm_result = llm_resp.json()
             suggestion = llm_result["choices"][0]["message"]["content"].strip()
+            suggestion = suggestion.replace("<|eot_id|>", "")
 
         except (httpx.RequestError, httpx.HTTPStatusError) as e:
             raise HTTPException(
