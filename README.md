@@ -63,12 +63,12 @@ fine-tuning-project2-v3/
 └── day2/                          # Day 2: 服务部署与应用
     ├── 1-launch-vllm/            # vLLM 服务启动脚本
     ├── 2-validation/             # 模型验证
-    ├── 3-service/                # 医学检测报告解读服务
-    │   ├── v1/                   # 基础文件上传版本
-    │   ├── v2/                   # Base64 图像传输版本
-    │   ├── v3/                   # vLLM 集成版本
-    │   └── v4/                   # 完整 Web UI 版本
-    └── test-img/                 # 测试图像
+    │   ├── test-img/             # 测试图像
+    └── 3-service/                # 医学检测报告解读服务
+        ├── v1/                   # 基础文件上传版本
+        ├── v2/                   # Base64 图像传输版本
+        ├── v3/                   # vLLM 集成版本
+        └── v4/                   # 完整 Web UI 版本
 ```
 
 ## 核心功能
