@@ -81,7 +81,7 @@ async def analyze_image(files: Annotated[list[bytes], File()]):
                 "messages": [
                     {
                         "role": "user",
-                        "content": f"根据以下医学检测报告分析结果，提供详细的健康建议和注意事项。请按照以下三个方面分别回答，每个方面至少写两句话，总回复不少于200字：\n\n【饮食建议】\n[具体内容]\n\n【运动建议】\n[具体内容]\n\n【生活方式及其他建议】\n[具体内容]\n\n报告分析结果：\n{summary}"
+                        "content": f"根据以下医学检测报告分析结果，提供相应的健康建议和注意事项：\n\n{summary}\n\n请以简洁明了的中文给出实用的健康建议，包括饮食、运动和生活方式等方面的指导。"
                     }
                 ],
                 "stop": ["<|eot_id|>"], 
