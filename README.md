@@ -115,5 +115,7 @@ LLM 健康顾问
 
 - 本项目不具备任何医学参考价值,请勿商用
 - 模型输出可能存在错误、偏差或完全不相关的内容，切勿根据模型输出做出任何实际健康判断或决策
-  
+本项目为个人项目，如有疑问可邮箱联系(This is a personal project. Please contact me via email if you have any questions.)：
+ 国内：2093782305@qq.com
+ foreign countries：lzs20010525@gmail.com  
 
