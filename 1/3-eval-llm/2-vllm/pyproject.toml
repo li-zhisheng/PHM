@@ -1,0 +1,17 @@
+[project]
+name = "2-vllm"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "vllm @ https://github.com/SystemPanic/vllm-windows/releases/download/v0.21.0/vllm-0.21.0+cu132-cp312-cp312-win_amd64.whl",
+]
+
+[[tool.uv.index]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
+
+[[tool.uv.index]]
+url = "https://download.pytorch.org/whl/nightly/cu132"
+name = "pytorch-nightly"
